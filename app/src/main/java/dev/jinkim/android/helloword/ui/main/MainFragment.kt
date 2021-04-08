@@ -1,30 +1,36 @@
 package dev.jinkim.android.helloword.ui.main
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import dev.jinkim.android.helloword.R
+import dev.jinkim.android.helloword.databinding.MainFragmentBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.dsl.module
+
+val fragmentModule = module {
+    factory { MainFragment() }
+}
 
 class MainFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MainFragment()
+    private val viewModel: MainViewModel by viewModel()
+
+    private lateinit var binding: MainFragmentBinding
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
+        binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
+        viewModel.weather.observe(viewLifecycleOwner) {
+            binding.message.text = it.toString()
+        }
+        return binding.root
     }
-
-    private lateinit var viewModel: MainViewModel
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }
