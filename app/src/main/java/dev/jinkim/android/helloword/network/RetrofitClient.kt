@@ -13,14 +13,17 @@ val networkModule = module {
 
     factory { AuthInterceptor() }
     factory { provideOkHttpClient(get(), get()) }
-    factory { provideForecastApi(get()) }
+    factory { provideWordApi(get()) }
     factory { provideLoggingInterceptor() }
 //    factory { ResponseHandler() }
 }
 
 fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
-    return Retrofit.Builder().baseUrl(BuildConfig.API_URL).client(okHttpClient)
-        .addConverterFactory(MoshiConverterFactory.create()).build()
+    return Retrofit.Builder()
+        .baseUrl(BuildConfig.WORDNIK_API_URL)
+        .client(okHttpClient)
+        .addConverterFactory(MoshiConverterFactory.create())
+        .build()
 }
 
 fun provideOkHttpClient(
@@ -40,4 +43,4 @@ fun provideLoggingInterceptor(): HttpLoggingInterceptor {
     return logger
 }
 
-fun provideForecastApi(retrofit: Retrofit): WeatherApi = retrofit.create(WeatherApi::class.java)
+fun provideWordApi(retrofit: Retrofit): WordsApi = retrofit.create(WordsApi::class.java)

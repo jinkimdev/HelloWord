@@ -1,7 +1,7 @@
 package dev.jinkim.android.helloword
 
 import android.app.Application
-import dev.jinkim.android.helloword.data.forecastModule
+import dev.jinkim.android.helloword.data.wordsModule
 import dev.jinkim.android.helloword.network.networkModule
 import dev.jinkim.android.helloword.ui.main.fragmentModule
 import dev.jinkim.android.helloword.ui.main.viewModelModule
@@ -14,7 +14,7 @@ class HelloWordApp : Application() {
         super.onCreate()
         startKoin {
             androidContext(this@HelloWordApp)
-            modules(listOf(forecastModule, networkModule, fragmentModule, viewModelModule,))
+            modules(listOf(wordsModule, networkModule, fragmentModule, viewModelModule,))
         }
     }
 

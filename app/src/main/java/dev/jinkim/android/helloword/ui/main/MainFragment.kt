@@ -28,7 +28,7 @@ class MainFragment : Fragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
-        viewModel.weather.observe(viewLifecycleOwner) {
+        viewModel.wordOfTheDay.observe(viewLifecycleOwner) {
             binding.message.text = it.toString()
         }
         return binding.root
