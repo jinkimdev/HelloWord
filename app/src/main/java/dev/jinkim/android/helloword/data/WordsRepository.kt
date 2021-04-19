@@ -8,5 +8,5 @@ val wordsModule = module {
 }
 
 class WordsRepository(private val wordsApi: WordsApi) {
-    suspend fun getWordOfTheDay() = wordsApi.getWordOfTheDay("2020-04-11")
+    suspend fun getWordOfTheDay(dateString: String) = wordsApi.getWordOfTheDay(dateString)
 }
