@@ -1,4 +1,6 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">HelloWord</string>
-    <string name="title_date">Word of the day for %1$s</string>
+    <string name="hw_title_date">Word of the day for %1$s</string>
+    <string name="hw_loading" tools:ignore="TypographyEllipsis">Loading...</string>
+    <string name="hw_date_picker_header">Select date for word of the day</string>
 </resources>

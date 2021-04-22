@@ -34,9 +34,6 @@ class MainFragment : Fragment() {
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = DataBindingUtil.inflate(inflater, R.layout.main_fragment, container, false)
-        viewModel.wordOfTheDay.observe(viewLifecycleOwner) {
-            binding.message.text = it.toString()
-        }
         return binding.root
     }
 
@@ -45,8 +42,13 @@ class MainFragment : Fragment() {
 
         val today = MaterialDatePicker.todayInUtcMilliseconds()
 
-        viewModel.selectedDateString.observe(viewLifecycleOwner) {
-            binding.title.text = viewModel.getTitleString(view.context, it)
+        viewModel.selectedDateString.observe(viewLifecycleOwner) { dateString ->
+            binding.title.text = viewModel.getTitleString(view.context, dateString)
+            binding.message.text = getString(R.string.hw_loading)
+            viewModel.getWordOfTheDay(dateString)
+                .observe(viewLifecycleOwner) { wordOfTheDay ->
+                    binding.message.text = wordOfTheDay.toString()
+                }
         }
 
         binding.selectDateBtn.setOnClickListener {
@@ -56,7 +58,7 @@ class MainFragment : Fragment() {
                         DateValidatorPointBackward.before(today)
                     ).build()
                 )
-                .setTitleText("Select date for word of the day")
+                .setTitleText(getString(R.string.hw_date_picker_header))
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build()
 
