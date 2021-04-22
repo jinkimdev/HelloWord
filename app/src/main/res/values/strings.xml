@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HelloWord</string>
+    <string name="title_date">Word of the day for %1$s</string>
 </resources>
