@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointBackward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -27,6 +28,8 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: MainFragmentBinding
 
+    private val definitionAdapter = WordDefinitionAdapter()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,14 +43,22 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Set up RecyclerView and Adapter
+        binding.wordDefinitionList.apply {
+            this.adapter = definitionAdapter
+            val llm = LinearLayoutManager(view.context)
+            llm.orientation = LinearLayoutManager.VERTICAL
+            layoutManager = llm
+        }
         val today = MaterialDatePicker.todayInUtcMilliseconds()
 
         viewModel.selectedDateString.observe(viewLifecycleOwner) { dateString ->
             binding.title.text = viewModel.getTitleString(view.context, dateString)
-            binding.message.text = getString(R.string.hw_loading)
+            binding.word.text = getString(R.string.hw_loading)
             viewModel.getWordOfTheDay(dateString)
                 .observe(viewLifecycleOwner) { wordOfTheDay ->
-                    binding.message.text = wordOfTheDay.toString()
+                    binding.word.text = wordOfTheDay.word
+                    definitionAdapter.setItems(wordOfTheDay.definitions)
                 }
         }
 
