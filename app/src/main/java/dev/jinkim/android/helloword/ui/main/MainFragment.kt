@@ -14,13 +14,8 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import dev.jinkim.android.helloword.R
 import dev.jinkim.android.helloword.databinding.MainFragmentBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.dsl.module
 import java.text.SimpleDateFormat
 import java.util.*
-
-val fragmentModule = module {
-    factory { MainFragment() }
-}
 
 class MainFragment : Fragment() {
 

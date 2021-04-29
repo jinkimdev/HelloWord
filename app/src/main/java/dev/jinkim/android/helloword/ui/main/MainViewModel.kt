@@ -7,11 +7,6 @@ import dev.jinkim.android.helloword.R
 import dev.jinkim.android.helloword.data.WordsRepository
 import dev.jinkim.android.helloword.util.DateUtil
 import kotlinx.coroutines.Dispatchers
-import org.koin.dsl.module
-
-val viewModelModule = module {
-    factory { MainViewModel(get()) }
-}
 
 class MainViewModel(private val wordsRepo: WordsRepository) : ViewModel() {
     var selectedDateString = MutableLiveData(DateUtil.getCurrentDate())
@@ -25,6 +20,5 @@ class MainViewModel(private val wordsRepo: WordsRepository) : ViewModel() {
     fun getTitleString(context: Context, dateString: String): String {
         return context.getString(R.string.hw_title_date, dateString)
     }
-
 
 }
