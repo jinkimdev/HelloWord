@@ -25,4 +25,6 @@ class MainViewModel(private val wordsRepo: WordsRepository) : ViewModel() {
     fun getTitleString(context: Context, dateString: String): String {
         return context.getString(R.string.hw_title_date, dateString)
     }
+
+
 }

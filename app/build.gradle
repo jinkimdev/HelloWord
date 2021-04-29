@@ -8,6 +8,7 @@ plugins {
 ext {
     // Current version
     koin_version = "3.0.1-beta-2"
+    work_version = "2.5.0"
 }
 
 android {
@@ -15,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId "dev.jinkim.android.helloword"
-        minSdkVersion 25
+        minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -68,6 +69,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
 
+    // WorkManager
+
+    // Kotlin + coroutines
+    implementation "androidx.work:work-runtime-ktx:$work_version"
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
