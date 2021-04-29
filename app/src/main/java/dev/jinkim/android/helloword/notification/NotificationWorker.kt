@@ -6,8 +6,9 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 
 class NotificationWorker(appContext: Context, workerParams: WorkerParameters): Worker(appContext, workerParams) {
+
     override fun doWork(): Result {
-        // Fetch word of the day and post a notification
+        // TODO: Fetch word of the day and post a notification
         Log.d(TAG, "Worker runs - fetch word of the day and post a notification.")
         return Result.success()
     }

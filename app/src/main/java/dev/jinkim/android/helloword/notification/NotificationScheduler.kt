@@ -29,13 +29,18 @@ class NotificationScheduler(context: Context) {
                     this.plusDays(1)
                 }
             }
-        val diffInSeconds = notificationTime.toEpochSecond(ZoneOffset.UTC) - now.toEpochSecond(ZoneOffset.UTC)
+        val diffInSeconds =
+            notificationTime.toEpochSecond(ZoneOffset.UTC) - now.toEpochSecond(ZoneOffset.UTC)
 
         workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(12, TimeUnit.HOURS)
             .setInitialDelay(diffInSeconds, TimeUnit.SECONDS)
             .addTag(NotificationWorker.TAG)
             .build()
-        workManager.enqueueUniquePeriodicWork(NotificationWorker.TAG, ExistingPeriodicWorkPolicy.KEEP, workRequest)
+        workManager.enqueueUniquePeriodicWork(
+            NotificationWorker.TAG,
+            ExistingPeriodicWorkPolicy.KEEP,
+            workRequest
+        )
     }
 
     private companion object {
