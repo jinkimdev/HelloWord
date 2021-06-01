@@ -8,10 +8,14 @@ import dev.jinkim.android.helloword.data.WordsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class NotificationWorker(
+/**
+ * Worker to fetch from "word of the day" API to get today's data.
+ */
+class WordFetchWorker(
     appContext: Context,
     workerParams: WorkerParameters,
-    private val wordsRepo: WordsRepository
+    private val wordsRepo: WordsRepository,
+    private val scheduler: NotificationScheduler
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -19,14 +23,12 @@ class NotificationWorker(
             Log.d(TAG, "Worker runs - fetch word of the day.")
             val word = wordsRepo.getWordOfTheDay("2021-05-30")
             Log.d(TAG, "Word of the day: ${word.word} (${word.publishDate}): ${word.definitions}")
-
-            // TODO: 6/1/21 Schedule a one-time work to post a notification at 8AM.
-
+            scheduler.scheduleNotificationPostWork()
             return@withContext Result.success()
         }
     }
 
     companion object {
-        const val TAG = "NotificationWorker"
+        const val TAG = "WordFetchWorker"
     }
 }

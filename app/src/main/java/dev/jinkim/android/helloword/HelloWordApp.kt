@@ -7,7 +7,7 @@ import dev.jinkim.android.helloword.injection.Modules.notificationSchedulerModul
 import dev.jinkim.android.helloword.injection.Modules.viewModelModule
 import dev.jinkim.android.helloword.injection.Modules.wordsRepositoryModule
 import dev.jinkim.android.helloword.notification.NotificationScheduler
-import dev.jinkim.android.helloword.notification.NotificationWorker
+import dev.jinkim.android.helloword.notification.WordFetchWorker
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -23,7 +23,7 @@ class HelloWordApp : Application() {
         super.onCreate()
 
         val workerModule = module {
-            worker { NotificationWorker(get(), get(), get()) }
+            worker { WordFetchWorker(get(), get(), get(), get()) }
         }
 
         startKoin {
@@ -36,7 +36,7 @@ class HelloWordApp : Application() {
 
         // Retrieve NotificationScheduler from Koin and schedule periodic work for notifications
         val notificationScheduler = getKoin().get<NotificationScheduler>()
-        notificationScheduler.schedulePeriodicWork()
+        notificationScheduler.schedulePeriodicFetchWork()
     }
 
 }
