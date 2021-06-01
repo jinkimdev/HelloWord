@@ -1,7 +1,12 @@
 package dev.jinkim.android.helloword.data
 
+import dev.jinkim.android.helloword.model.network.WordOfTheDay
 import dev.jinkim.android.helloword.network.WordsApi
 
 class WordsRepository(private val wordsApi: WordsApi) {
-    suspend fun getWordOfTheDay(dateString: String) = wordsApi.getWordOfTheDay(dateString)
+
+    /**
+     * Ex) "yyyy-MM-dd"
+     */
+    suspend fun getWordOfTheDay(dateString: String): WordOfTheDay = wordsApi.getWordOfTheDay(dateString)
 }

@@ -1,10 +1,7 @@
 package dev.jinkim.android.helloword.notification
 
 import android.content.Context
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkRequest
+import androidx.work.*
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.concurrent.TimeUnit
@@ -15,10 +12,15 @@ import java.util.concurrent.TimeUnit
 class NotificationScheduler(context: Context) {
 
     private val workManager = WorkManager.getInstance(context)
-    private val workRequest: WorkRequest
+    private val workRequest: PeriodicWorkRequest =
+        PeriodicWorkRequestBuilder<NotificationWorker>(12, TimeUnit.HOURS)
+//            .setInitialDelay(diffInSeconds, TimeUnit.SECONDS)
+            .setInitialDelay(10, TimeUnit.SECONDS) // For testing
+            .addTag(NotificationWorker.TAG)
+            .build()
 
-    init {
-        // Schedule work
+    fun schedulePeriodicWork() {
+        // Calculate time between now and the next time (morning) to run this work.
         val now = LocalDateTime.now()
         val notificationTime = now.withHour(NOTIFICATION_HOUR)
             .withMinute(0)
@@ -29,16 +31,12 @@ class NotificationScheduler(context: Context) {
                     this.plusDays(1)
                 }
             }
-        val diffInSeconds =
-            notificationTime.toEpochSecond(ZoneOffset.UTC) - now.toEpochSecond(ZoneOffset.UTC)
 
-        workRequest = PeriodicWorkRequestBuilder<NotificationWorker>(12, TimeUnit.HOURS)
-            .setInitialDelay(diffInSeconds, TimeUnit.SECONDS)
-            .addTag(NotificationWorker.TAG)
-            .build()
+        val diffInSeconds = notificationTime.toEpochSecond(ZoneOffset.UTC) - now.toEpochSecond(ZoneOffset.UTC)
+
         workManager.enqueueUniquePeriodicWork(
             NotificationWorker.TAG,
-            ExistingPeriodicWorkPolicy.KEEP,
+            ExistingPeriodicWorkPolicy.REPLACE,
             workRequest
         )
     }

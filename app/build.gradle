@@ -63,6 +63,7 @@ dependencies {
 
     // Koin main features for Android (Scope,ViewModel ...)
     implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version" // WorkManager with Koin
 
     // Networking
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
